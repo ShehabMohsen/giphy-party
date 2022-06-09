@@ -1,54 +1,66 @@
 const FORM = document.querySelector("#search-form")
 const gifsArea = document.querySelector("#GIFS")
-const BTN = document.getElementsByClassName("btn")
+const BTN = document.querySelector("#submit-btn")
+const SUBMISSION = document.querySelector("#gif-input")
+const MORE_BTN = document.querySelector("#more-btn");
+const HIDDEN = document.getElementsByClassName("hidden")
+
+
 const API_KEY = 'nOjzgnRK5wSxGHruvjd3HVSux7Zxk46H';
 let q = "fate saber"
 let limit = 9;
+let offset = 0;
+let pages = 0; //also known as the number of times we load more gifs
 rating = "g";
-lang = "en";
-random_id = "mon";
+
 // api.giphy.com/v1/gifs/search
 // http://hostname/endpoint?param1=value1&param2=value2
 
-let url = `http://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${q}&limit=${limit}&rating=${rating}`;
 
-async function getResults() {
+async function getResults(url) {
     let response = await fetch(url);
     console.log("response:", response)
-
+    
     let responseData = await response.json();
-    console.log("object:", responseData)
+    console.log("responseData:", responseData)
     generateHTML(responseData)
 }
 
 function generateHTML(responseData){
-
-    gifsArea.innerHTML = `<img src= "${responseData.data[0].images.original.url}" alt = "gif image"/>`;
-    
+    gifsArea.innerHTML = ``;
+    urlArray = responseData.data;
+    urlArray.forEach(element => {
+        gifsArea.innerHTML += `<img src= "${element.images.original.url}" alt = "gif image" width = 400 height = 400/>`;
+        console.log(element.images.original.url);
+    }); 
 }
 
-getResults();
+// function handleFormSubmit(){
+//     console.log("hello")
+//     q.preventDefault();
+//     q = SUBMISSION.value
+//     console.log(`search value: ${q}`)
+//     let url = `http://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${q}&limit=${limit}&rating=${rating}`;
+//     getResults(url);
+//     // let url = getUrl(q);
+// }
 
-// console.log("index 1", object);
+BTN.addEventListener("click", (evt)=>{
+    evt.preventDefault()
+    console.log(`search value: ${SUBMISSION.value}`)
+    let url = `http://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${SUBMISSION.value}&limit=${limit}&rating=${rating}`;
+    getResults(url);
+    HIDDEN.display = "inline";
+});
+
+MORE_BTN.addEventListener("click", (evt)=>{
+    pages +=1
+    offset = pages * limit;
+    evt.preventDefault()
+    let url = `http://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${SUBMISSION.value}&limit=${offset}&rating=${rating}`;
+    getResults(url)
+})
 
 
 
-// async pokemonForm.addEventListener("submit", (evt) => {
-//     // this prevents the page from re-loading
-//     evt.preventDefault();
-//     console.log("evt.target.pokemon.value = ", evt.target.pokemon.value);
-//     let apiUrl = "https://pokeapi.co/api/v2/pokemon/" + evt.target.pokemon.value;
-//     // all these console.log entries are kinda ugly - but facilitate debugging
-//     console.log(apiUrl);
-//     // (2) upon form submit, call the Pokemon API
-//     //let response = fetch(apiUrl);
-//     //console.log("response is: ", response); // a Promise is placeholder for future data
-//     // async and await go together
-//     // the next two lines with await ARE THE DEAL!!!
-//     let response = await fetch(apiUrl);
-//     console.log("response is: ", response); // now call is made, but data still not arrived
-//     let responseData = await response.json();
-//     console.log("responseData is: ", responseData); // now have actual data
-//     // (3) grab what we want from results of the pokemon API call, and put it on page
-//     generateHTML(responseData); 
-// })
+

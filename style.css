@@ -5,3 +5,8 @@
 .btn {
     color: #4e99ff;
 }
+
+.hidden {
+    display:inline;
+    /* display: none; */
+}

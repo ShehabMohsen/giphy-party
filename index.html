@@ -12,15 +12,17 @@
   <body>
     <form id="search-form">
       <div class="top-side">
-        <label id="btn-label" for="gif"> <h1>Giphy Party</h1></label>
+        <label id="btn-label" for="gif-input"> <h1>Giphy Party</h1></label>
         <input
+          id="gif-input"
           type="text"
           id="gif"
           name="gif"
+          value=""
           placeholder="search for GIF"
           required
         />
-        <button class="btn">Submit</button>
+        <button class="btn" id="submit-btn">Submit</button>
       </div>
     </form>
 
@@ -29,7 +31,7 @@
     </div>
 
     <div class="bottom-side">
-      <button class="btn">Show Me More Gifs!</button>
+      <button class="hidden" id="more-btn">Show Me More Gifs!</button>
     </div>
   </body>
 </html>
