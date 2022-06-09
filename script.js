@@ -5,8 +5,8 @@ const SUBMISSION = document.querySelector("#gif-input")
 const MORE_BTN = document.querySelector("#more-btn");
 const HIDDEN = document.getElementsByClassName("hidden")
 
-
-const API_KEY = 'nOjzgnRK5wSxGHruvjd3HVSux7Zxk46H';
+//INPUT your own API key:
+const API_KEY = ''
 let q = "fate saber"
 let limit = 9;
 let offset = 0;
